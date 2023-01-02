@@ -1,0 +1,92 @@
+{% include 'layout.html' %}
+
+        <div class="container">
+            <div class="card text-center">
+                <div class="card-header">
+                    You Todos
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">List of your Todos!</h5>
+                    <p class="crad-text">Information regarding stuff that needs to be complete</p>
+                    <button type="button" class="btn btn-dark" onclick="testAjax()">Ajax Button</button>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Info</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for todo in todos %}
+                                {% if todo.complete == False %}
+                                    <tr class="pointer">
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ todo.title }}</td>
+                                        <td>
+                                            <button
+                                                    onclick="window.location.href='complete/{{todo.id}}'"
+                                                    type="button" class="btn btn-success">
+                                                Complete
+                                            </button>
+                                            <button
+                                                    onclick="window.location.href='edit-todo/{{todo.id}}'"
+                                                    type="button" class="btn btn-info">
+                                                Edit
+                                            </button>
+                                            <button
+                                                    onclick="window.location.href='/todos/delete/{{todo.id}}'"
+                                                    type="button" class="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% else %}
+
+                                    <tr class="pointer alert alert-success">
+                                        <td>{{ loop.index }}</td>
+                                        <td class="strike-through-td">{{ todo.title }}</td>
+                                        <td>
+                                            <button
+                                                    onclick="window.location.href='complete/{{todo.id}}'"
+                                                    type="button" class="btn btn-warning">
+                                                Undo
+                                            </button>
+                                            <button
+                                                    onclick="window.location.href='edit-todo/{{todo.id}}'"
+                                                    type="button" class="btn btn-info">
+                                                Show
+                                            </button>
+                                            <!-- <button
+                                                    onclick="window.location.href='/todos/delete/{{todo.id}}'"
+                                                    type="button" class="btn btn-danger">
+                                                Delete
+                                            </button> -->
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a class="btn btn-primary" href="add-todo">Add a new Todo!</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function testAjax() {
+                $.ajax({
+                    url: "/users",
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function(data) {
+                        console.log(data)
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                })
+            }
+        </script>
